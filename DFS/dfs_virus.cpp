@@ -41,3 +41,5 @@ int main() {
   std::cout << result << '\n';
   return 0;
 }
+
+// BOJ 2606
