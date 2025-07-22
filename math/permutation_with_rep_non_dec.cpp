@@ -23,3 +23,5 @@ int main() {
   go(1);
   return 0;
 }
+
+//BOJ 15652
