@@ -61,3 +61,60 @@ int main()
   }
   return 0;
 }
+
+// Another Example
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct athlete{
+  std::string name;
+  int point;
+};
+
+int main() {
+  int n;
+  std::cin >> n;
+  std::vector<athlete> result;
+
+  for (int i = 0; i < n; ++i) {
+    athlete here;
+    std::cin >> here.name >> here.point;
+
+    if (!result.empty()) {
+      int size = result.size();
+      result.push_back(here);
+      int idx = -1;
+
+      for (int j = 0; j < size; ++j) {
+        if (here.point >= result[j].point) {
+          idx = j;
+          
+          for (int k = size - 1; k >= idx; --k) {
+            result[k + 1] = result[k];
+          }
+
+          result[idx] = here;
+          break;
+        }
+      }
+
+      if (result.size() == 4) {
+        result.pop_back();
+      }
+    }
+    else {
+      result.push_back(here);
+    }
+
+    for (athlete a : result) {
+      std::cout << a.name << ' ';
+    }
+    std::cout << '\n';
+  }
+
+
+
+  return 0;
+}
