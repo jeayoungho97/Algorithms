@@ -1,13 +1,42 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "C/C++ Runner: Debug Session",
-      "type": "lldb",
-      "request": "launch",
-      "args": [],
-      "cwd": "/Users/simon/Desktop/Algorithms",
-      "program": "/Users/simon/Desktop/Algorithms/build/Debug/outDebug"
-    }
-  ]
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "C/C++ Runner: Debug Session",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "args": [],
+            "stopAtEntry": false,
+            "console": "externalTerminal",
+            "cwd": "c:/Users/SSAFY/Desktop/제영호/Algorithms/SORT",
+            "program": "c:/Users/SSAFY/Desktop/제영호/Algorithms/SORT/build/Debug/outDebug"
+        },
+        {
+            "name": "C/C++: g++.exe build and debug active file",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\Users\\SSAFY\\Desktop\\mingw64\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: g++.exe build active file"
+        }
+    ]
 }
