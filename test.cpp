@@ -6,6 +6,16 @@
 
 int main() {
 
+<<<<<<< HEAD
+=======
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+            std::cin >> map[i][j];
+        }
+    }
+
+    
+>>>>>>> 02679c9956ec1eebc7f1ab41f1c14694c952fc17
 
 
     return 0;
