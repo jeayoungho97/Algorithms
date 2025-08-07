@@ -101,6 +101,11 @@
     "xmemory": "cpp",
     "xmemory0": "cpp",
     "xtr1common": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "terminal.integrated.defaultEncoding": "utf-8",
+    "terminal.integrated.env.windows": {
+      "LANG": "ko_KR.UTF-8",
+      "LC_ALL": "ko_KR.UTF-8"
+    }
   }
 }
