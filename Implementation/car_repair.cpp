@@ -6,17 +6,17 @@ int ans;
 
 void solve()
 {
+    // 접수, 정비, 고객 번호 모두 1부터 시작
     int n, m, k, a, b;
     std::cin >> n >> m >> k >> a >> b;
 
-    // 접수, 정비, 고객 번호 모두 1부터 시작
 
     // 문제 : 같은 시간에 도착하는 고객들이 있음 => 고객의 번호, 도착시간을 모두 저장
-    std::vector<int> recTime(n + 1, 0), repTime(m + 1, 0); // 접수, 수리 번호 별 걸리는 시간
-    std::queue<std::pair<int,int>> cusTime;
-    std::vector<std::pair<int, int>> cusWent(k + 1);                         // 고객(idx) : {접수번호, 수리번호}
-    std::vector<std::pair<int, int>> recVisited(n + 1, {0, 0}), repVisited(m + 1, {0, 0}); // visited 값은 고객번호, 고객 받은 시간
-    int finished = 0; // 끝날 때마다 finished++ => finished == k 이면 while 문 탈출
+    std::vector<int> recTime(n + 1, 0), repTime(m + 1, 0);                                      // 접수, 수리 번호 별 걸리는 시간
+    std::queue<std::pair<int,int>> cusTime;                                                     // {고객 번호, 정비소 도착시간}  
+    std::vector<std::pair<int, int>> cusWent(k + 1);                                            // 고객(idx) : {접수번호, 수리번호}
+    std::vector<std::pair<int, int>> recVisited(n + 1, {0, 0}), repVisited(m + 1, {0, 0});      // visited 값은 고객번호, 고객 받은 시간
+    int finished = 0;                                                                           // 정비 끝날 때마다 finished++ => finished == k 이면 while 문 탈출
 
     for (int i = 1; i <= n; ++i) std::cin >> recTime[i];
     for (int i = 1; i <= m; ++i) std::cin >> repTime[i];
@@ -51,7 +51,7 @@ void solve()
             int& arrivedTime = recVisited[i].second; // 접수 창구에 고객이 도착한 시간
 
             // 접수 끝난 경우
-            if (receptionNum && time == arrivedTime + recTime[i]) {         // ==> 고객 도착 시간이 
+            if (receptionNum && time == arrivedTime + recTime[i]) {         
                 waitRep.push(receptionNum); // 정비 창구 대기줄에 넣고
                 recVisited[i] = {0, 0};   // 접수 창구 비워준다
             }
