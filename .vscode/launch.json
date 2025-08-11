@@ -2,6 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "version": "0.2.0",
+      "configurations": [
+        {
+          "name": "C++ Launch",
+          "type": "lldb",
+          "request": "launch",
+          "program": "${workspaceFolder}/a",
+          "args": [],
+          "cwd": "${workspaceFolder}",
+          "preLaunchTask": "build",
+          "stopOnEntry": false
+        }
+      ]
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppvsdbg",
       "request": "launch",
