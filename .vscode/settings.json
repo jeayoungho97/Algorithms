@@ -9,6 +9,7 @@
     "iostream": "cpp",
     "utility": "cpp",
     "algorithm": "cpp",
-    "cstdlib": "cpp"
+    "cstdlib": "cpp",
+    "vector": "cpp"
   }
 }
