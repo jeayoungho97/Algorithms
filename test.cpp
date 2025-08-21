@@ -1,48 +1,124 @@
 #include <iostream>
+#include <queue>
 #include <vector>
 #include <algorithm>
-#define min(a,b) (a>b?b:a)
-#define max(a,b) (a>b?a:b)
-using namespace std;
 
-struct pos {
-    int ind, x1, x2;
-    bool operator<(const pos& r) {
-        if (x1 == r.x1) {
-            return x2 < r.x2;
-        }
-        return x1 < r.x1;
+const int dy[] = {-1, 0, 1, 0};
+const int dx[] = {0, 1, 0, -1};
+
+struct NODE
+{
+    int y, x, cost;
+    bool operator<(const NODE &r) const
+    {
+        return cost > r.cost;
     }
 };
 
-vector<pos> v;
-int v_ind[100001];
+struct TUNNEL
+{
+    int ay, ax, by, bx, c;
+    bool operator<(const TUNNEL &r) const
+    {
+        return c < r.c;
+    }
+};
+int map[30][30], n, m;
+int dist[30][30];
 
+std::vector<TUNNEL> tunnels;
 
-int main() {
-    int n, q, x1, x2, y, i, ind;
-    cin >> n >> q;
-    for (i = 1; i <= n; i++) {
-        cin >> x1 >> x2 >> y;
-        v.push_back({ i, x1, x2});
-        v_ind[i] = i - 1;
-    }
-    sort(v.begin(), v.end());
-    for (i = 1; i < v.size(); i++) {
-        if (v[i].x1 <= v[i - 1].x2 && v[i].x2 >= v[i - 1].x1) {
-            v[i].x1 = min(v[i - 1].x1, v[i].x1);
-            v[i].x2 = max(v[i - 1].x2, v[i].x2);
-            v_ind[v[i].ind] = v_ind[v[i - 1].ind];
+void dijkstra()
+{
+    std::fill(&dist[0][0], &dist[0][0] + 30 * 30, 1e9);
+    std::priority_queue<NODE> pq;
+    pq.push({0, 0, 0});
+    dist[0][0] = 0;
+
+    while (!pq.empty())
+    {
+        NODE now = pq.top();
+        pq.pop();
+        if (dist[now.y][now.x] < now.cost)
+            continue;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            int ny = now.y + dy[i];
+            int nx = now.x + dx[i];
+            if (ny < 0 || nx < 0 || ny >= n || nx >= n)
+                continue;
+
+            int temp;
+            if (map[ny][nx] > map[now.y][now.x])
+                temp = 2 * (map[ny][nx] - map[now.y][now.x]);
+            else if (map[ny][nx] < map[now.y][now.x])
+                temp = 0;
+            else
+                temp = 1;
+
+            int nextcost = now.cost + temp;
+            if (dist[ny][nx] <= nextcost)
+                continue;
+            dist[ny][nx] = nextcost;
+            pq.push({ny, nx, nextcost});
+        }
+        for (const TUNNEL &tun : tunnels)
+        {
+            int temp_nxt = now.cost;
+            int temp_y, temp_x;
+
+            if (now.y == tun.ay - 1 && now.x == tun.ax - 1)
+            {
+                temp_y = tun.by - 1, temp_x = tun.bx - 1;
+                temp_nxt += tun.c;
+            }
+            else if (now.y == tun.by - 1 && now.x == tun.bx - 1)
+            {
+                temp_y = tun.ay - 1, temp_x = tun.ax - 1;
+                temp_nxt += tun.c;
+            }
+            else
+                continue;
+
+            if (dist[temp_y][temp_x] <= temp_nxt)
+                continue;
+            dist[temp_y][temp_x] = temp_nxt;
+            pq.push({temp_y, temp_x, temp_nxt});
         }
     }
-    for (i = 0; i < q; i++) {
-        cin >> x1 >> x2;
-        if (v_ind[x1] == v_ind[x2]) {
-            cout << 1 << '\n';
+}
+
+int main()
+{
+    int t;
+    std::cin >> t;
+
+    for (int tc = 1; tc <= t; ++tc)
+    {
+        std::cin >> n >> m;
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                std::cin >> map[i][j];
+            }
         }
-        else {
-            cout << 0 << '\n';
+
+        tunnels.clear();
+        for (int i = 0; i < m; ++i)
+        {
+            int ay, ax, by, bx, c;
+            std::cin >> ay >> ax >> by >> bx >> c;
+            tunnels.push_back({ay, ax, by, bx, c});
         }
+        std::sort(tunnels.begin(), tunnels.end());
+
+        dijkstra();
+
+        int ans = dist[n - 1][n - 1];
+        std::cout << '#' << tc << ' ' << ans << '\n';
     }
+
     return 0;
-  }
+}
