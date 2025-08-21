@@ -1,57 +1,72 @@
 #include <iostream>
 #include <queue>
-#include <vector>
 #include <algorithm>
+#include <vector>
+#define MAX 1e9
 using namespace std;
 
+const int dy[] = {-1, 0, 1, 0};
+const int dx[] = {0, 1, 0, -1};
+
 struct NODE {
-	int num, cost, passed;
-	bool operator<(const NODE& r) const {
-		return (cost == r.cost) ? passed > r.passed : cost > r.cost;
-	}
+  int y, x, cost;
+  bool operator<(const NODE& r) const {
+    return cost > r.cost;
+  }
 };
 
-int n, m;
-vector<NODE> adj[101];
-pair<int, int> dist[101];
+int n;
+int map[31][31];
+int dist[31][31];
 
-void dijkstra(int start) {
-	priority_queue<NODE> pq;
-	fill(dist, dist + 101, pair<int,int> {1e9 ,101});
-	pq.push({ start, 0, 1});
-	dist[start] = { 0, 1 };
+void dijkstra(int sy, int sx) {
+  fill(&dist[0][0], &dist[0][0] + 31 * 31, MAX);
+  priority_queue<NODE> pq;
+  pq.push({sy, sx, 0});
+  dist[sy][sx] = 0;
 
-	while (!pq.empty()) {
-		NODE now = pq.top(); pq.pop();
-		if (dist[now.num].first < now.cost) continue;
-		if (dist[now.num].first == now.cost) {
-			dist[now.num].second = min(dist[now.num].second, now.passed);
-		}
+  while (!pq.empty()) {
+    NODE now = pq.top(); pq.pop();
+    if (dist[now.y][now.x] < now.cost) continue;
 
-		for (NODE next : adj[now.num]) {
-			int nextcost = now.cost + next.cost;
-			if (dist[next.num].first > nextcost) {
-				dist[next.num].first = nextcost;
-				pq.push({ next.num, nextcost, dist[now.num].second + 1});
-			}
-		}
-	}
+    for (int i = 0; i < 4; ++i) {
+      int ny = now.y + dy[i];
+      int nx = now.x + dx[i];
+      if (ny < 0 || nx < 0 || ny >= n || nx >= n) continue;
+      int nextH = map[ny][nx];
+      int curH = map[now.y][now.x];
+      
+      int adder = 0;
+      if (nextH > curH) adder = (nextH - curH) * 2;
+      else if (nextH == curH) adder = 1;
+
+      int nextcost = now.cost + adder;
+
+      if (dist[ny][nx] > nextcost) {
+        dist[ny][nx] = nextcost;
+        pq.push({ny, nx, nextcost});
+      }
+    }
+  }
 }
 
 int main() {
-	cin >> n >> m;
-	for (int i = 0; i < m; ++i) {
-		int from, to, fee, exfee, time;
-		cin >> from >> to >> fee >> exfee >> time;
+  int t;
+  cin >> t;
+  for (int tc = 1; tc <= t; ++tc) {
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        cin >> map[i][j];
+      }
+    }
+    dijkstra(0, 0);
 
-		int cost = (time > 10) ? (time - 10) * exfee + fee : fee;
-		adj[from].push_back({ to, cost });
-	}
+    int ans = dist[n - 1][n - 1];
 
-	dijkstra(1);
-	
-	if (dist[n - 1].first >= 1e9) cout << -1 << '\n';
-	else cout << dist[n - 1].first << ' ' << dist[n - 1].second << '\n';
+    cout << '#' << tc << ' ' << ans << '\n';
+  }
 
-	return 0;
+
+  return 0;
 }
