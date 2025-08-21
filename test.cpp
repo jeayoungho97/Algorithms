@@ -1,4 +1,5 @@
 #include <iostream>
+<<<<<<< HEAD
 #include <queue>
 #include <vector>
 #include <algorithm>
@@ -122,3 +123,14 @@ int main()
 
     return 0;
 }
+=======
+
+int main() {
+	int n;
+	std::cin >> n;
+
+	std::cout << n;
+
+	return 0;
+}
+>>>>>>> 69a0f31cbdda5a544a6ace5f4a148ecfb99637bd

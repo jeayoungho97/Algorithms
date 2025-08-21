@@ -1,0 +1,14 @@
+# Visual Studio 관련
+.vs/
+*.user
+*.suo
+*.vcxproj.user
+*.VC.db
+*.VC.opendb
+
+# 빌드 산출물
+*.exe
+*.dll
+*.obj
+*.pdb
+*.lib
