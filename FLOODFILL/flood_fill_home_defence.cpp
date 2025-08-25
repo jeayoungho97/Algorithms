@@ -55,7 +55,6 @@ int main() {
 	cin >> t;
 
 	for (int tc = 1; tc <= t; ++tc) {
-		memset(map, 0, sizeof(map));
 		ans = 0;
 
 		cin >> n >> m;
