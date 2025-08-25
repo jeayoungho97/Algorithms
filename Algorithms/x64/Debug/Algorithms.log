@@ -1,25 +1,19 @@
 ﻿  test.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244: '초기화 중': '_Ty'에서 '_Ty1'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:         with
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:         [
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:             _Ty=double
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:         ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:         and
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:         [
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:             _Ty1=int
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16): warning C4244:         ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': 'const _Ty'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=double
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ]
   (소스 파일 'test.cpp'을(를) 컴파일하는 중)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274,16):
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
       템플릿 인스턴스화 컨텍스트(가장 오래된 인스턴스화 컨텍스트)가
-          C:\Users\SSAFY\source\repos\jeayoungho97\Algorithms\test.cpp(20,39):
-          컴파일되는 함수 템플릿 인스턴스화 'std::pair<int,int>::pair<double,int,0>(_Other1 &&,_Other2 &&) noexcept'에 대한 참조를 확인하세요.
+          C:\Users\SSAFY\source\repos\jeayoungho97\Algorithms\test.cpp(20,2):
+          컴파일되는 함수 템플릿 인스턴스화 'void std::fill<int*,double>(const _FwdIt,const _FwdIt,const _Ty &)'에 대한 참조를 확인하세요.
           with
           [
-              _Other1=double,
-              _Other2=int
+              _FwdIt=int *,
+              _Ty=double
           ]
-              C:\Users\SSAFY\source\repos\jeayoungho97\Algorithms\test.cpp(20,6):
-              'dijkstra'에서 'std::pair<int,int>::pair'에 대한 첫 번째 참조를 확인하세요.
   
   Algorithms.vcxproj -> C:\Users\SSAFY\source\repos\jeayoungho97\Algorithms\x64\Debug\Algorithms.exe
   'pwsh.exe'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
