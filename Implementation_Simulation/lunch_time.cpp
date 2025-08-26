@@ -17,6 +17,8 @@ vector<pair<pair<int, int>, int>> stair; // pair : coords, int : time
 
 void go(int bitmask) {
 	priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> arrTime; // arrTime + which stair
+
+	// 사람마다 계단까지 걸리는 시간을 arrTime 에 담음 (걸리는 시간이 작은 순)
 	for (int i = 0; i < people.size(); ++i) {
 		auto [py, px] = people[i];
 		bool which_stair = (bitmask & (1 << i));
@@ -27,7 +29,7 @@ void go(int bitmask) {
 	} 
 
 	queue<int> stair_go[2]; // 계단 내려가기 시작한 시간, 최대 3명
-	queue<int> stair_wait[2]; // 현재 계단에서 기다리고 있는 사람, 내려갈 수 있는 최소 시간
+	queue<int> stair_wait[2]; // 현재 계단에서 기다리고 있는 사람들, 내려갈 수 있는 최소 시간 (도착 시간 + 1)
 
 	int time = 0, cnt = 0;
 	while (true) {
