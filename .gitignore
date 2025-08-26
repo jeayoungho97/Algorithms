@@ -13,3 +13,6 @@
 *.obj
 *.pdb
 *.lib
+
+# 테스트 코드
+test.cpp
