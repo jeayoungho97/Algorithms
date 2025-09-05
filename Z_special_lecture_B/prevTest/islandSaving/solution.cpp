@@ -4,7 +4,7 @@
 #include <queue>
 #include <cstring>
 #include <string>
-#include <unordered_map>
+// #include <unordered_map>
 
 using namespace std;
 
@@ -17,11 +17,13 @@ const int dy[] = {-1, 0, 1, 0};
 const int dx[] = {0, 1, 0, -1};
 int n;
 int MAP[20][20];
-unordered_map<int, vector<NODE>> AVAIL;
+vector<NODE> AVAIL[60000];
 
 void init(int N, int mMap[20][20])
 {
-  AVAIL.clear();
+  for (int i = 0; i < 60000; ++i) {
+    AVAIL[i].clear();
+  }
 
   n = N;
 
