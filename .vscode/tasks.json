@@ -4,13 +4,23 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "C:\\Users\\SSAFY\\Desktop\\mingw64\\bin\\g++.exe",
+      "command": "g++",
       "args": [
         "-g",
-        "${workspaceFolder}\\test.cpp",
+        "${workspaceFolder}\\SAMSUNG\\test.cpp",
         "-o",
-        "${workspaceFolder}\\a.exe"
+        "${workspaceFolder}\\SAMSUNG\\a.exe"
       ],
+      "options": {
+        "env": {
+          "PATH": "C:\\msys64\\mingw64\\bin;${env:PATH}"
+        },
+        "shell": {
+          "executable": "C:\\Windows\\System32\\cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "group": { "kind": "build", "isDefault": true },
       "problemMatcher": ["$gcc"]
     }
   ]

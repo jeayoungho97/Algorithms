@@ -5,19 +5,18 @@
       "name": "Debug with LLDB",
       "type": "lldb",
       "request": "launch",
-      "program": "${workspaceFolder}/a.out", // 실행 파일 경로
-      "args": [], // 프로그램 실행 시 인자
-      "cwd": "${workspaceFolder}", // 작업 디렉토리
-      "stopAtEntry": false
+      "program": "${workspaceFolder}/a.out",
+      "args": [],
+      "cwd": "${workspaceFolder}"
     },
     {
       "name": "Windows: a.exe (gdb, external console)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}\\a.exe",
-      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}\\SAMSUNG\\a.exe",
+      "cwd": "${workspaceFolder}\\SAMSUNG",
       "MIMode": "gdb",
-      "miDebuggerPath": "C:\\Users\\SSAFY\\Desktop\\mingw64\\bin\\gdb.exe",
+      "miDebuggerPath": "C:/Users/SSAFY/Desktop/mingw32/bin/gdb.exe",
       "externalConsole": true,
       "stopAtEntry": false,
       "internalConsoleOptions": "neverOpen",
