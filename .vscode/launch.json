@@ -5,9 +5,10 @@
       "name": "Debug with LLDB",
       "type": "lldb",
       "request": "launch",
-      "program": "${workspaceFolder}/a.out",
-      "args": [],
-      "cwd": "${workspaceFolder}"
+      "program": "${workspaceFolder}/a.out", // 실행 파일 경로
+      "args": [], // 프로그램 실행 시 인자
+      "cwd": "${workspaceFolder}", // 작업 디렉토리
+      "stopAtEntry": false
     },
     {
       "name": "Windows: a.exe (gdb, external console)",
