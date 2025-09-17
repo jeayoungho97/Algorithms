@@ -1,4 +1,3 @@
-// check commit name check again check last time
 #include <iostream>
 
 int parent[1001];
