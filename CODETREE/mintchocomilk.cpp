@@ -129,7 +129,6 @@ void lunch() {
 
     if (group[i].size() == 1) continue;
     person[now.y][now.x].ganjul = person[now.y][now.x].power - 1;
-    person[now.y][now.x].power = 1;
     now = person[now.y][now.x];
 
     // 전파 순서도 미리 정함
@@ -140,11 +139,14 @@ void lunch() {
 }
 
 void dinner() {
+  bool junpa[51][51] = {0};
+
   while (!leaders.empty()) {
     NODE_LEADER now = leaders.top(); leaders.pop();
     cout << "food : " << now.food << " coord : " << now.y << ' ' << now.x << " ganjul : " << now.ganjul << " power : " << now.power << '\n';
-
+    if (junpa[now.y][now.x]) continue;
     // 전파 시작
+    person[now.y][now.x].power = 1;
     int dir = (now.ganjul + 1) % 4;
     int ny = now.y;
     int nx = now.x;
@@ -163,11 +165,14 @@ void dinner() {
 
       if (now.ganjul > next.power) {
         // 강한 전파
+        junpa[ny][nx] = true;
         next.food = now.food;
         now.ganjul -= next.power + 1;
         next.power++;
       }
       else {
+        // 약한 전파
+        junpa[ny][nx] = true;
         next.food ^= now.food;
         next.power += now.ganjul;
         now.ganjul = 0;
