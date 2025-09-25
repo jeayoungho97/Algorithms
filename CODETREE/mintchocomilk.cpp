@@ -85,28 +85,34 @@ void BFS(int i, int j) {
   queue<PAIR> q;
   q.push({i, j});
   visited[i][j] = true;
-  person[i][j].power--;
-
-  group[find(i * N + j + 1)].push(person[i][j]);
-
+  bool alone = true; // 주위에 신봉자가 없는 경우
+  
   while (!q.empty()) {
     PAIR now = q.front(); q.pop();
-
+    
+    // 4방향 돌면서 같은 신봉자 있으면 큐에 푸시
     for (int dir = 0; dir < 4; ++dir) {
       int ny = now.y + dy[dir];
       int nx = now.x + dx[dir];
       if (ny < 0 || nx < 0 || ny >= N || nx >= N) continue;
       if (visited[ny][nx]) continue;
-
+      
       if (person[now.y][now.x].food == person[ny][nx].food) {
+        // 신봉자가 한명이라도 있으면 혼자가 아니므로 그룹을 만들어야함
+        alone = false;
+        person[ny][nx].power--;
         visited[ny][nx] = true;
         UNION(now.y * N + now.x + 1, ny * N + nx + 1);
-        person[ny][nx].power--;
         group[find(ny * N + nx + 1)].push(person[ny][nx]);
-
+        
         q.push({ny, nx});
       }
     }
+  }
+
+  if (!alone) {
+    person[i][j].power--;
+    group[find(i * N + j + 1)].push(person[i][j]);
   }
 }
 
@@ -121,17 +127,14 @@ void lunch() {
 
   for (int i = 1; i < 2501; ++i) {
     if (group[i].empty()) continue;
-
-    // 리더의 신앙심 -> 1, 간절함 -> B - 1
     NODE now = group[i].top();
 
     person[now.y][now.x].power += group[i].size();
-
-    if (group[i].size() == 1) continue;
     person[now.y][now.x].ganjul = person[now.y][now.x].power - 1;
+    person[now.y][now.x].power = 1;
     now = person[now.y][now.x];
 
-    // 전파 순서도 미리 정함
+    // NODE -> NODE_LEADER (간절함 순으로 pq 되게끔)
     NODE_LEADER leader = {now.y, now.x, now.food, now.power, now.ganjul};
 
     leaders.push(leader);
@@ -139,14 +142,11 @@ void lunch() {
 }
 
 void dinner() {
-  bool junpa[51][51] = {0};
-
   while (!leaders.empty()) {
     NODE_LEADER now = leaders.top(); leaders.pop();
     cout << "food : " << now.food << " coord : " << now.y << ' ' << now.x << " ganjul : " << now.ganjul << " power : " << now.power << '\n';
-    if (junpa[now.y][now.x]) continue;
+
     // 전파 시작
-    person[now.y][now.x].power = 1;
     int dir = (now.ganjul + 1) % 4;
     int ny = now.y;
     int nx = now.x;
@@ -165,14 +165,11 @@ void dinner() {
 
       if (now.ganjul > next.power) {
         // 강한 전파
-        junpa[ny][nx] = true;
         next.food = now.food;
         now.ganjul -= next.power + 1;
         next.power++;
       }
       else {
-        // 약한 전파
-        junpa[ny][nx] = true;
         next.food ^= now.food;
         next.power += now.ganjul;
         now.ganjul = 0;
