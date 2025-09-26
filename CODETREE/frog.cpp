@@ -9,10 +9,10 @@ using namespace std;
 struct NODE {
   int y, x, cost;
   int jump;
-  bool visited = false;
   bool operator<(const NODE& r) const { return cost > r.cost; }
 };
 
+bool visited[51][51][6];
 const int dy[] = {-1, 0, 1, 0};
 const int dx[] = {0, 1, 0, -1};
 int N, Q;
@@ -21,6 +21,7 @@ char MAP[51][51];
 
 void solve(int r1, int c1, int r2, int c2) {
   fill(&dist[0][0], &dist[0][0] + 51 * 51, 1e9);
+  fill(&visited[0][0][0], &visited[0][0][0] + 51 * 51 * 6, false);
   priority_queue<NODE> pq;
   pq.push({r1, c1, 0, 1});
   dist[r1][c1] = 0;
@@ -47,38 +48,36 @@ void solve(int r1, int c1, int r2, int c2) {
 
         int ny = now.y + jump * dy[dir];
         int nx = now.x + jump * dx[dir];
-        // cout << "jump from " << now.y << ' ' << now.x << " to " << ny << ' ' << nx << '\n';
-
+        
+        NODE next = {ny, nx, nextcost, jump};
         // 천적 or 맵 탈출 => break
         if (ny < 0 || nx < 0 || ny >= N || nx >= N) {
-          //   cout << "escape MAP!!\n";
           break;
         }
         if (MAP[ny][nx] == '#') {
-          //   cout << "met predator!!\n";
           break;
         }
 
         // 미끄러운 돌 => continue
         if (MAP[ny][nx] == 'S') {
-          //   cout << "pass slippery rock!\n";
           continue;
         }
 
-        // 여유를 두고 pq 받음
+        // 여유를 두고 pq 받음 => 여기서 무한루프가 도는데 visited 같은걸로 확인을 해줘야할듯
         if (dist[ny][nx] + 54 < nextcost) {
-          // cout << "nextcost is too high!\n";
           continue;
         }
+
+        if (visited[ny][nx][jump] == true) continue;
 
         // dist 최솟값 갱신
         if (dist[ny][nx] > nextcost) {
-        //   cout << "set nextcost to new dist!\n";
           cout << "dist[" << ny << "][" << nx << "] = " << nextcost << '\n';
           dist[ny][nx] = nextcost;
         }
 
-        pq.push({ny, nx, nextcost, jump});
+        visited[ny][nx][jump] = true;
+        pq.push(next);
       }
     }
   }
