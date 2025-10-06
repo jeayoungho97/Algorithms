@@ -12,24 +12,23 @@ struct NODE {
   bool operator<(const NODE& r) const { return cost > r.cost; }
 };
 
-bool visited[51][51][6];
+
 const int dy[] = {-1, 0, 1, 0};
 const int dx[] = {0, 1, 0, -1};
 int N, Q;
-int dist[51][51];
+int dist[51][51][6];
 char MAP[51][51];
 
 void solve(int r1, int c1, int r2, int c2) {
-  fill(&dist[0][0], &dist[0][0] + 51 * 51, 1e9);
-  fill(&visited[0][0][0], &visited[0][0][0] + 51 * 51 * 6, false);
+  fill(&dist[0][0][0], &dist[0][0][0] + 51 * 51 * 6, 1e9);
   priority_queue<NODE> pq;
   pq.push({r1, c1, 0, 1});
-  dist[r1][c1] = 0;
+  dist[r1][c1][1] = 0;
 
   while (!pq.empty()) {
     NODE now = pq.top();
     pq.pop();
-    if (dist[now.y][now.x] + 54 < now.cost) continue;
+    if (dist[now.y][now.x][now.jump] < now.cost) continue;
 
     for (int dir = 0; dir < 4; ++dir) {
       for (int jump = 1; jump <= 5; ++jump) {
@@ -64,31 +63,27 @@ void solve(int r1, int c1, int r2, int c2) {
         }
 
         // 여유를 두고 pq 받음 => 여기서 무한루프가 도는데 visited 같은걸로 확인을 해줘야할듯
-        if (dist[ny][nx] + 54 < nextcost) {
+        if (dist[ny][nx][jump] <= nextcost) {
           continue;
         }
 
-        if (visited[ny][nx][jump] == true) continue;
-
-        // dist 최솟값 갱신
-        if (dist[ny][nx] > nextcost) {
-          cout << "dist[" << ny << "][" << nx << "] = " << nextcost << '\n';
-          dist[ny][nx] = nextcost;
-        }
-
-        visited[ny][nx][jump] = true;
+        dist[ny][nx][jump] = nextcost;
         pq.push(next);
       }
     }
   }
 
-  if (dist[r2][c2] >= 1e9)
-    cout << -1 << '\n';
-  else
-    cout << dist[r2][c2] << '\n';
+  bool not_found = true;
+  int ret = 1e9;
+  for (int i = 1; i <= 5; ++i) {
+    if (dist[r2][c2][i] < 1e9) {
+      not_found = false;
+      ret = min(ret, dist[r2][c2][i]);
+    }
+  }
 
-  cout << dist[3][1] << ' ' << dist[3][4] << ' ' << dist[1][4] << ' '
-       << dist[1][2] << ' ' << dist[0][2] << ' ' << dist[0][0] << '\n';
+  if (not_found) cout << -1 << '\n';
+  else cout << ret << '\n';
 }
 
 int main() {
