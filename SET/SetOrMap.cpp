@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <string>
-#include <set>
+#include <unordered_set>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 int main() {
@@ -13,7 +15,7 @@ int main() {
     int n;
     cin >> n;
 
-    set<string> cur;
+    unordered_set<string> cur;
 
     for (int i = 0; i < n; ++i) {
         string name, action;
@@ -27,12 +29,11 @@ int main() {
         }
     }
 
-    // set 은 자동으로 오름차순 정렬이 됨
-    // 역순으로 하기 위해 내림차순으로 순회
-    for (auto it = cur.rbegin(); it != cur.rend(); ++it) {
-        // set 은 iterator 의 값을 * 로 뽑아옴
-        cout << *it << '\n';
-    }
+    vector<string> result(cur.begin(), cur.end());
+    sort(result.begin(), result.end(), greater<string>());
 
+    for (const auto& name : result) {
+        cout << name << '\n';
+    }
     return 0;
 }
