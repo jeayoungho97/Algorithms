@@ -1,11 +1,9 @@
 // BOJ 7785 회사에 있는 사람
-// map version
+// set version
 
 #include <iostream>
 #include <string>
-#include <map>
-#include <vector>
-#include <algorithm>
+#include <set>
 using namespace std;
 
 int main() {
@@ -15,24 +13,25 @@ int main() {
     int n;
     cin >> n;
 
-    map<string, bool> mp;
+    set<string> cur;
 
     for (int i = 0; i < n; ++i) {
-        string str, buf;
-        cin >> str >> buf;
+        string name, action;
+        cin >> name >> action;
 
-        if (buf == "enter") {
-            mp[str] = 1;
+        if (action == "enter") {
+            cur.insert(name);
         }
         else {
-            mp[str] = 0;
+            cur.erase(name);
         }
     }
 
-    for (auto it = mp.rbegin(); it != mp.rend(); ++it) {
-        if (it -> second) {
-            cout << it->first << '\n';
-        }
+    // set 은 자동으로 오름차순 정렬이 됨
+    // 역순으로 하기 위해 내림차순으로 순회
+    for (auto it = cur.rbegin(); it != cur.rend(); ++it) {
+        // set 은 iterator 의 값을 * 로 뽑아옴
+        cout << *it << '\n';
     }
 
     return 0;
