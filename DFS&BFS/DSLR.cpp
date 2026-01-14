@@ -1,96 +1,75 @@
 #include <iostream>
 #include <queue>
-#include <string>
+#include <vector>
 #include <algorithm>
 using namespace std;
 
-struct Node {
-    int val;   
-    string path;
-};
-
-int A, B;
-int visited[10001];
-
 int main() {
-    ios_base::sync_with_stdio(false);
+    ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
     int T;
     cin >> T;
 
     while (T--) {
-        fill(visited, visited + 10001, 1e9);
-        queue<Node> q;
+        int A, B;
         cin >> A >> B;
+
+        vector<int> prev(10000, -1);
+        vector<char> how(10000, 0);
+        vector<bool> visited(10000, 0);
+
+        queue<int> q;
+        q.push(A);
         visited[A] = 1;
-        visited[B] = 0; 
-        q.push({A, ""});
 
         while (!q.empty()) {
-            Node now = q.front(); q.pop();
-            int cval = now.val;
-            string cpath = now.path;
-            
-            int next;
-            int nextvisited = visited[cval] + 1;
-            string nextpath;
+            int cur = q.front(); q.pop();
+            if (cur == B) break;
 
-            // 두 배
-            next = (cval * 2) % 10'000;
-            nextpath = cpath + "D";
-
-
-            if (!visited[next] || visited[next] > nextvisited) {
-                visited[next] = nextvisited;
-                q.push({next, nextpath});
+            // D
+            int nxt = (cur * 2) % 10000;
+            if (!visited[nxt]) {
+                visited[nxt] = 1;
+                prev[nxt] = cur;
+                how[nxt] = 'D';
+                q.push(nxt);
             }
 
-            if (visited[B]) {
-                cout << nextpath << '\n';
-                break;
+            // S
+            nxt = (cur == 0 ? 9999 : cur - 1);
+            if (!visited[nxt]) {
+                visited[nxt] = 1;
+                prev[nxt] = cur;
+                how[nxt] = 'S';
+                q.push(nxt);
             }
 
-            // -1
-            next = (cval + 9999) % 10'000;
-            nextpath = cpath + "S";
-            if (!visited[next] || visited[next] > nextvisited) {
-                visited[next] = nextvisited;
-                q.push({next, nextpath});
+            // L
+            nxt = (cur % 1000) * 10 + (cur / 1000);
+            if (!visited[nxt]) {
+                visited[nxt] = 1;
+                prev[nxt] = cur;
+                how[nxt] = 'L';
+                q.push(nxt);
             }
 
-            if (visited[B]) {
-                cout << nextpath << '\n';
-                break;
-            }
-
-            // 왼쪽
-            next = (cval * 10) % 10'000 + (cval / 1000);
-            nextpath = cpath + "L";
-            if (!visited[next] || visited[next] > nextvisited) {
-                visited[next] = nextvisited;
-                q.push({next, nextpath});
-            }
-
-            if (visited[B]) {
-                cout << nextpath << '\n';
-                break;
-            }
-
-            // 오른쪽
-            next = (cval / 10) + (cval % 10) * 1000;
-            nextpath = cpath + "R";
-            if (!visited[next] || visited[next] > nextvisited) {
-                visited[next] = nextvisited;
-                q.push({next, nextpath});
-            }
-
-            if (visited[B]) {
-                cout << nextpath << '\n';
-                break;
+            // R
+            nxt = (cur / 10) + (cur % 10) * 1000;
+            if (!visited[nxt]) {
+                visited[nxt] = 1;
+                prev[nxt] = cur;
+                how[nxt] = 'R';
+                q.push(nxt);
             }
         }
+
+        string ans;
+        for (int x = B; x != A; x = prev[x]) ans.push_back(how[x]);
+        reverse(ans.begin(), ans.end());
+        cout << ans << '\n';
     }
+
 
     return 0;
 }
