@@ -1,28 +1,9 @@
 #include <iostream>
-#include <vector>
-#include <queue>
+#include <set>
 using namespace std;
 
-struct Node {
-    int val, idx;
-};
-
-struct MaxCmp {
-    bool operator()(const Node& a, const Node& b) const {
-        if (a.val != b.val) return a.val < b.val;
-        return a.idx < b.idx;
-    }
-};
-
-struct MinCmp {
-    bool operator()(const Node& a, const Node& b) const {
-        if (a.val != b.val) return a.val > b.val;
-        return a.idx > b.idx;
-    }
-};
-
 int main() {
-    ios_base::sync_with_stdio(false);
+    ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
     int T;
@@ -32,19 +13,7 @@ int main() {
         int k;
         cin >> k;
 
-        vector<char> visited(k + 1, 0);
-
-        priority_queue<Node, vector<Node>, MaxCmp> maxpq;
-        priority_queue<Node, vector<Node>, MinCmp> minpq;
-
-        int idx = 0;
-
-        auto cleanMax = [&]() {
-            while (!maxpq.empty() && visited[maxpq.top().idx]) maxpq.pop();
-        };
-        auto cleanMin = [&]() {
-            while (!minpq.empty() && visited[minpq.top().idx]) minpq.pop();
-        };
+        multiset<int> ms;
 
         for (int i = 0; i < k; ++i) {
             char op;
@@ -52,34 +21,29 @@ int main() {
             cin >> op >> x;
 
             if (op == 'I') {
-                maxpq.push({x, idx});
-                minpq.push({x, idx});
-                idx++;
-            } else {
+                ms.insert(x);
+            }
+            else {
+                if (ms.empty()) continue;
+
                 if (x == 1) {
-                    cleanMax();
-                    if (!maxpq.empty()) {
-                        visited[maxpq.top().idx] = 1;
-                        maxpq.pop();
-                    }
-                } else {
-                    cleanMin();
-                    if (!minpq.empty()) {
-                        visited[minpq.top().idx] = 1;
-                        minpq.pop();
-                    }
+                    auto it = prev(ms.end());
+                    ms.erase(it);
+                }
+                else {
+                    auto it = ms.begin();
+                    ms.erase(it);
                 }
             }
         }
 
-        cleanMax();
-        cleanMin();
-
-        if (maxpq.empty() || minpq.empty()) {
+        if (ms.empty()) {
             cout << "EMPTY\n";
-        } else {
-            cout << maxpq.top().val << ' ' << minpq.top().val << '\n';
         }
+        else {
+            cout << *prev(ms.end()) << ' ' << *ms.begin() << '\n';
+        }
+
     }
 
     return 0;
